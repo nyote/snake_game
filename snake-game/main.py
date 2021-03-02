@@ -21,7 +21,10 @@ screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
 game_is_on = True
+
 while game_is_on:
+
+
     screen.update()
     time.sleep(0.1)
 
@@ -33,13 +36,21 @@ while game_is_on:
         snake.extend_snake()
     #detecting crushing into the wall
     if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        score.game_over()
-        game_is_on = False
+        score.reset()
+        snake.reset()
+        with open("high_score.txt", mode="w") as file:
+            file.write(str(score.high_score))
+        # score.game_over()
+        # game_is_on = False
     #detecting crushing into itself
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 15:
-            score.game_over()
-            game_is_on = False
+            score.reset()
+            snake.reset()
+            with open("high_score.txt", mode="w") as file:
+                file.write(str(score.high_score))
+            # score.game_over()
+            # game_is_on = False
 
 
 screen.exitonclick()
